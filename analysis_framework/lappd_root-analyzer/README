@@ -1,0 +1,17 @@
+-- Created by Mohammad Hattawy (mohammad.hattawy@gmail.com)
+-- Aug 17, 2017 for the lappd analysis of the MCP-PMTs
+
+- Work: this directory contains:
+ 1. Sub-directory for the lappd analysis, that converts the binary data 
+    files to txt files, then the lappd reads the txt files and processes them
+    with selection and cleaning cuts. The output of the lappd is a root file
+    that can be used for the root scripts to find the gain, amplitude, ...,
+    etc, of the each data set. See the section B in MCPs-analysis-manual.pdf 
+    for the analysis details.  
+
+  2. Sub-directory for the root analysis scripts, that reads the lappd
+     output root files and prints the histograms of the different quantities. 
+
+
+
+   

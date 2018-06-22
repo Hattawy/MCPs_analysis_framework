@@ -1,0 +1,44 @@
+#!/bin/bash 
+
+rmin=$1
+rmax=$2
+#base_dir="/home/mhattawy/work/mcp-PMTs/MCPs_PHYs_HEP/g-2_data/tube69-HV-diff-B-1st-set"; 
+#base_dir="/home/mhattawy/work/mcp-PMTs/MCPs_PHYs_HEP/g-2_data/tube69-HV-diff-B-2nd-set"; 
+#base_dir="/home/mhattawy/work/mcp-PMTs/MCPs_PHYs_HEP/g-2_data/tube69-theta-B0.25"; 
+#base_dir="/home/mhattawy/work/mcp-PMTs/MCPs_PHYs_HEP/g-2_data/tube69-theta-B0.5T"; 
+
+#2nd-round-comments
+#base_dir="/home/mhattawy/work/mcp-PMTs/MCP-2nd-round-exp/data";
+#base_dir="/home/mhattawy/work/mcp-PMTs/MCP-2nd-round-exp/march3rd";
+
+#fermilab pixelated readout pads
+#base_dir="/home/mhattawy/work/mcp-PMTs/Fermi_Mar_2018"
+
+#G-2 20x20 june 2018
+base_dir="/home/mhattawy/work/mcp-PMTs/G_2_June_2018/"
+
+#### BinToTxtCon_CAEN
+
+for rnum in `seq $rmin $rmax`;
+ do
+#echo "Start the binary to txt conversion for run number $rnum"
+#echo "converting $base_dir/CAEN$rnum"
+#root -b -q "Bin2TxtConv_CAEN.cc(\"$base_dir/CAEN$rnum\")"
+#echo "finished converting the binary files and saved the output in txtfiles"
+
+#lappd txtfiles/txtfile_run_$rnum.txt rootfile_run_$rnum.root paf 1800 
+#mv rootfile_run_$rnum.root rootfiles/
+#echo "finished lappd processing and saved the output in rootfiles"
+ cp root_scripts/individual_run_root_analyzer_original.h individual_run_root_analyzer.h
+ cp root_scripts/individual_run_root_analyzer.C  individual_run_root_analyzer.C
+ cp root_scripts/run_individual_analyzer.cc run_individual_analyzer.cc
+ sed -i 's/xxinputfilexx/rootfile_run_'$rnum'/' individual_run_root_analyzer.h
+ root -b -q run_individual_analyzer.cc
+ echo "finished root analysis and saved the output in results/plots_run_$rnum"
+
+
+rm individual_run_root_analyzer.C
+rm individual_run_root_analyzer.h
+rm run_individual_analyzer.cc
+done 
+
