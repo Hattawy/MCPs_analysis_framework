@@ -1,0 +1,52 @@
+#########################################################################
+# Author: Jingbo Wang
+# mail: wjingbo@anl.gov
+# edited by: Mohammad Hattawy (mohammad.hattawy@gmail.com) on July 3rd, 2017
+#########################################################################
+Documentation on how to use the photodetector analysis program
+
+______________________________________________________________________________________________________________________
+Installation
+1. Install ROOT_5.34 on your linux/MasOS machine
+2. Create a new folder Rootdev/ in any directory on your machine.
+3. Creat sub-folders lib/, include/ and bin/ in Rootdev/
+4. In .bashrc, add the following lines:
+	#ROOT setting
+	export ROOTDEV=ROODEVTDIR/ # Replace ROOTDEVDIR by your path
+	export PATH=$ROOTDEV/bin/:$PATH
+	export LD_LIBRARY_PATH=$ROOTDEV/lib:$LD_LIBRARY_PATH
+5. Start a new terminal
+6. Copy the lappd analysis code mcpanalysis_v3/ to your machine
+7. Go to folder mcpanalysis_v3
+8. Run install.sh
+Now the installation is done. The files can be found in Rootdev/bin 
+______________________________________________________________________________________________________________________
+Analysis
+1. Create an analysis folder, for example mcpanalysis_v3/doAnalysis/. It doesn't necessarily have to be inside mcpanalysis_v3/. Any directory is fine.
+
+2. copy Bin2TxtConv_CAEN.cc to the new created directory. 
+   cp ~/mcpanalysis_v3/convert/convert_caen/Bin2TxtConv_CAEN.cc  ~/doAnalysis/  
+   cp ~/mcpanalysis_v3/paf/paf_agilent ~/doAnalysis/
+   cp ~/mcpanalysis_v2/analysis/SplineFitDB.rdb ~/doAnalysis/. 
+
+2. To convert the CAEN binary data to .txt file, type command as: 
+	root -b -q "Bin2TxtConv_CAEN.cc(\"../../../../MCPs_PHYs_HEP/g-2_data/tube69-HV-diff-B-1st-set/CAENData2028\")"
+	
+	The converted file will appear in the current folder. The name is run2028.txt for instance.
+
+3. To analyze the data, type command:
+	lappd run2028.txt 
+	This command converts run2028.txt to run2028.txt.root and put the new file in the same directory
+	lappd run2028.txt run2028.root paf_agilent 1000
+	The 1st argument is the path of the converted .txt file.
+	The 2nd argument is the path of the output .root file.
+	The 3rd argument is the analysis parameter file name
+	The 4th argument is the number of events that the user wants to analyze.
+	All the information is store in the output .root file. The user can view the tree structure and do furthur analysis.
+______________________________________________________________________________________________________________________	
+Make some plots
+The example macros are in folder /mcpanalysis_v2/macros. The user can copy them to your own folder.
+To plot the timing histogram:
+        root 'draw_timing.C("../doAnalysis/run696.root")' 
+        type .q to quit root
+	
